@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- selectで取得したカラム名をアンダースコア区切りからキャメルケースへ変換してマップする。逆向きは不可。 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- ASで設定された名称を列名として使用する。 -->
+        <setting name="useColumnLabel" value="true"/>
+        <!-- MyBatisにキャッシュさせない -->
+        <setting name="cacheEnabled" value="false"/>
+        <!-- キャッシュさせないと言ってるにも関わらずキャッシュするので、スコープをStatementに限定させて被害を最小限にする -->
+        <setting name="localCacheScope" value="STATEMENT"/>
+        <!-- プレイスホルダーで渡した変数の中身がnullだった場合にNULLを設定するようにする -->
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+    <typeAliases>
+        <!-- サブパッケージまで含めて型名だけで特定できるようにする -->
+        <package name="com.example.repository.entity"/>
+    </typeAliases>
+</configuration>

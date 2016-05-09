@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.repository.ReservationRepository">
+    <insert id="save" parameterType="com.example.repository.entity.RabbitMqReservation">
+        <![CDATA[
+            INSERT INTO RABBITMQ_RESERVATION (
+                MUTEX
+                ,NAME
+                ,RESERVED_AT
+            )VALUES(
+                #{mutex}
+                ,#{name}
+                ,#{reservedAt}
+            )
+        ]]>
+    </insert>
+</mapper>

@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name:  net.sf.log4jdbc.DriverSpy
+    url:                jdbc:log4jdbc:oracle:thin:@localhost:1521:XE
+    username:           HT01
+    password:           ht01
+    schema:             HT01
+  jpa:
+    hibernate:
+      ddl-auto: none
+  rabbitmq:
+    addresses: 192.168.99.100:5672,192.168.99.101:5672,192.168.99.102:5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      concurrency: 3
+      max-concurrency: 5
+  batch:
+    initializer:
+      enabled: false
+mybatis:
+    config-location: classpath:/META-INF/mybatis/mybatis-config.xml
+logging:
+    level:
+        rabbitmq.console: DEBUG
+        org.springframework.boot.autoconfigure: INFO
+        org.springframework.amqp.rabbit.core.RabbitTemplate: DEBUG
+        org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer: DEBUG
+        org.springframework.transaction.interceptor: TRACE
+        org.mybatis: INFO
+        jdbc.connection: INFO
+        jdbc.sqltiming: INFO
+        jdbc.audit: OFF
+        jdbc.resultset: OFF
+        jdbc.sqlonly: OFF
