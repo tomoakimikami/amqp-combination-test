@@ -13,18 +13,11 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import spring.support.amqp.rabbit.ExactlyOnceDeliveryAdvice;
-import spring.support.amqp.rabbit.ExactlyOnceDeliveryProducer;
-import spring.support.amqp.rabbit.repository.MutexRepository;
-import spring.support.amqp.rabbit.repository.jdbc.OracleMutexRepository;
 
 /**
  * 動作確認用RabbitMQ設定値.
@@ -101,39 +94,5 @@ public class RabbitConfiguration {
     factory.setConcurrentConsumers(10);
     factory.setConsecutiveActiveTrigger(1);
     return factory;
-  }
-
-  /**
-   * 二重送信制御付きメッセージ送信エージェント.
-   *
-   * @return エージェント
-   */
-  @Bean
-  @ConditionalOnMissingBean(name = "exactlyOnceDeliveryProducer")
-  @ConditionalOnBean(RabbitTemplate.class)
-  public ExactlyOnceDeliveryProducer exactlyOnceDeliveryProducer() {
-    return new ExactlyOnceDeliveryProducer();
-  }
-
-  /**
-   * 二重送信制御用アドバイス.
-   *
-   * @return 二重送信制御用アドバイス
-   */
-  @Bean
-  @ConditionalOnMissingBean(name = "exactlyOnceDeliveryAdvice")
-  public ExactlyOnceDeliveryAdvice exactlyOnceDeliveryAdvice() {
-    return new ExactlyOnceDeliveryAdvice();
-  }
-
-  /**
-   * Mutex操作用リポジトリ.
-   *
-   * @return Mutex操作用リポジトリ
-   */
-  @Bean
-  @ConditionalOnMissingBean(name = "mutexRepository")
-  public MutexRepository mutexRepository() {
-    return new OracleMutexRepository();
   }
 }

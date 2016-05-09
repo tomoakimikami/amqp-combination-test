@@ -4,7 +4,6 @@ import com.example.dto.Sample;
 
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -21,7 +20,6 @@ public interface ConsumerService {
    * @param headers ヘッダ
    * @param dto 受信DTO
    */
-  @Transactional
   void receive(@Headers Map<String, String> headers, @Payload Sample data);
 
   /**

@@ -1,13 +1,14 @@
 package com.example.service.impl;
 
 import com.example.dto.Sample;
-import com.example.repository.ReservationRepository;
+import com.example.repository.RabbitMqReservationRepository;
 import com.example.repository.entity.RabbitMqReservation;
 import com.example.service.ConsumerService;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -33,11 +34,12 @@ public class ConsumerServiceImpl implements ConsumerService {
    * 予約リポジトリ
    */
   @Autowired
-  private ReservationRepository reservationRepository;
+  private RabbitMqReservationRepository reservationRepository;
 
   /**
    * {@inheritDoc}.
    */
+  @Transactional
   @ExactlyOnceDelivery
   @RabbitListener(queues = "default.queue", containerFactory = "requeueRejectContainerFactory")
   @Override

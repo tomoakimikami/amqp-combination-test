@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 
 import lombok.extern.java.Log;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.example", "spring.support.amqp.rabbit"})
 @EnableBatchProcessing
 @Log
 @MapperScan(basePackages = "com.example.repository")
@@ -27,7 +27,7 @@ public class AmqpCombinationTestApplication implements CommandLineRunner {
   /**
    * 実行回数.
    */
-  private static final int COUNT = 10;
+  private static final int COUNT = 500;
 
   @Autowired
   private ProducerService producerService;

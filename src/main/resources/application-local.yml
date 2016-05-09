@@ -29,8 +29,8 @@ logging:
         org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer: DEBUG
         org.springframework.transaction.interceptor: TRACE
         org.mybatis: INFO
-        jdbc.connection: INFO
+        jdbc.connection: OFF
         jdbc.sqltiming: INFO
-        jdbc.audit: OFF
+        jdbc.audit: INFO
         jdbc.resultset: OFF
         jdbc.sqlonly: OFF
