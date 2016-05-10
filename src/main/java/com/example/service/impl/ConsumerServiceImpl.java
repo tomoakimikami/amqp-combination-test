@@ -13,13 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 import spring.support.amqp.rabbit.ExactlyOnceDeliveryAdvice.ExactlyOnceDelivery;
 import spring.support.amqp.rabbit.ExactlyOnceDeliveryProducer;
 
 /**
- * TODO クラス概要.
+ * メッセージ受信サービス実装.
  *
  * @author Tomoaki Mikami
  */
@@ -36,6 +37,8 @@ public class ConsumerServiceImpl implements ConsumerService {
   @Autowired
   private RabbitMqReservationRepository reservationRepository;
 
+  private Random random = new Random();
+
   /**
    * {@inheritDoc}.
    */
@@ -44,17 +47,23 @@ public class ConsumerServiceImpl implements ConsumerService {
   @RabbitListener(queues = "default.queue", containerFactory = "requeueRejectContainerFactory")
   @Override
   public void receive(Map<String, String> headers, Sample data) {
-    // 受信したメッセージに応じて予約登録する.
-    RabbitMqReservation reservation = new RabbitMqReservation();
-    Optional<String> mutexOptional = Optional.of(headers.get(ExactlyOnceDeliveryProducer.MUTEX));
-    String mutex = mutexOptional.orElseThrow(
-        () -> new IllegalArgumentException(ExactlyOnceDeliveryProducer.MUTEX + " is required"));
-    reservation.setMutex(Long.valueOf(mutex));
-    reservation.setName(data.getName());
-    reservation.setReservedAt(Calendar.getInstance().getTime());
-    reservationRepository.save(reservation);
-    // TODO たまにエラーにしてDLQへ飛ばしてみる
-    consumerCountDownLatch.countDown();
+    try {
+      // 受信したメッセージに応じて予約登録する.
+      RabbitMqReservation reservation = new RabbitMqReservation();
+      Optional<String> mutexOptional = Optional.of(headers.get(ExactlyOnceDeliveryProducer.MUTEX));
+      String mutex = mutexOptional.orElseThrow(
+          () -> new IllegalArgumentException(ExactlyOnceDeliveryProducer.MUTEX + " is required"));
+      reservation.setMutex(Long.valueOf(mutex));
+      reservation.setName(data.getName());
+      reservation.setReservedAt(Calendar.getInstance().getTime());
+      reservationRepository.save(reservation);
+      // 半分エラーにしてDLQへ飛ばしてみる
+      if (random.nextBoolean()) {
+        throw new IllegalArgumentException("Moved to DLQ");
+      }
+    } finally {
+      consumerCountDownLatch.countDown();
+    }
   }
 
   /**

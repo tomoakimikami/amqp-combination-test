@@ -3,7 +3,7 @@ package com.example.service;
 import com.example.dto.Sample;
 
 /**
- * TODO クラス概要.
+ * メッセージ送信サービスインタフェース.
  *
  * @author Tomoaki Mikami
  */

@@ -8,7 +8,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * TODO クラス概要.
+ * トランザクション関連設定.
  *
  * @author Tomoaki Mikami
  */

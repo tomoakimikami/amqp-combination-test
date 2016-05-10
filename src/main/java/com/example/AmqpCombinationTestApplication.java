@@ -27,7 +27,7 @@ public class AmqpCombinationTestApplication implements CommandLineRunner {
   /**
    * 実行回数.
    */
-  private static final int COUNT = 500;
+  private static final int COUNT = 10;
 
   @Autowired
   private ProducerService producerService;
@@ -57,7 +57,7 @@ public class AmqpCombinationTestApplication implements CommandLineRunner {
     consumerService.initLatch(COUNT);
     randomIntStream()//
         .parallel()//
-        .forEach(consumer());
+        .forEach(intConsumer());
     await();
     log.info("Done!");
   }
@@ -85,7 +85,7 @@ public class AmqpCombinationTestApplication implements CommandLineRunner {
     return stream;
   }
 
-  private IntConsumer consumer() {
+  private IntConsumer intConsumer() {
     final int limit = 10;
     return new IntConsumer() {
       /**

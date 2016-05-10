@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import spring.support.amqp.rabbit.ExactlyOnceDeliveryProducer;
 
 /**
- * TODO クラス概要.
+ * メッセージ送信サービス実装.
  *
  * @author Tomoaki Mikami
  */
