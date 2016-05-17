@@ -2,14 +2,14 @@ spring:
   datasource:
     driver-class-name:  net.sf.log4jdbc.DriverSpy
     url:                jdbc:log4jdbc:oracle:thin:@localhost:1521:XE
-    username:           HT01
-    password:           ht01
-    schema:             HT01
+    username:           HR
+    password:           HR
+    schema:             HR
   jpa:
     hibernate:
       ddl-auto: none
   rabbitmq:
-    addresses: 192.168.99.100:5672,192.168.99.101:5672,192.168.99.102:5672
+    addresses: 192.168.99.101:5672,192.168.99.101:5673,192.168.99.101:5674
     username: guest
     password: guest
     virtual-host: /
